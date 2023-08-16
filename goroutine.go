@@ -4,15 +4,28 @@ import (
 	"fmt"
 )
 
-func main() {
-	msg := make(chan string)
-	go email(msg)
-	mail := <-msg
-	fmt.Println("the mail is sent")
-	fmt.Println("the mail is received")
-	fmt.Println(mail)
+type userdetails struct {
+	name    string
+	age     int
+	number  int
+	address string
+	zipcode int
 }
 
-func email(ch chan string) {
-	ch <- "hello nitesh"
+func main() {
+	msg := make(chan userdetails)
+	go sendmessage(msg)
+	user := <-msg
+	fmt.Printf(" name=%s,\n age=%d,\n number=%d,\n address=%s,\n zipcode=%d\n", user.name, user.age, user.number, user.address, user.zipcode)
+}
+
+func sendmessage(ch chan<- userdetails) {
+	Userdetails := userdetails{
+		name:    "nitesh",
+		age:     22,
+		number:  9876543,
+		address: "banjara hills",
+		zipcode: 4321,
+	}
+	ch <- Userdetails
 }
